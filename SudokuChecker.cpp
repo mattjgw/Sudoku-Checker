@@ -3,6 +3,7 @@
  *
  *  Created on: Dec 31, 2016
  *      Author: Matthew Wright
+ *  Last Modified: April 11, 2017
  */
 
 #include <cstdlib>
@@ -34,7 +35,7 @@ int main()
 		}
 	}
 
-	checkRows(sudoku, correct);
+	//checkRows(sudoku, correct);
 	if(correct)
 	{
 		checkColumns(sudoku, correct);
@@ -55,24 +56,26 @@ int main()
 
 void checkRows(int sudoku[][WIDTH], bool &correct)
 {
-	int sum = 0;
-
 	for(int i = 0; i < 9; i++)
 	{
+		int check[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 		for(int j = 0; j < 9; j++)
 		{
-			sum += sudoku[i][j];
-		}
 
-		if(sum == SUM)
-		{
-			sum = 0;
+			for(int k = 0; k < 9; k++)
+			{
+				if(sudoku[i][j] == check[k])
+				{
+					check[k] = 0;
+				}
+			}
 		}
-
-		else
+		for(int k = 0; k < 9; k++)
 		{
-			correct = false;
-			return;
+			if(check[k] != 0)
+			{
+				correct = false;
+			}
 		}
 	}
 	return;
@@ -80,27 +83,29 @@ void checkRows(int sudoku[][WIDTH], bool &correct)
 
 void checkColumns(int sudoku[][WIDTH], bool &correct)
 {
-	int sum = 0;
-	int j = 0;
 	for(int i = 0; i < 9; i++)
-	{
-		for(j = 0; j < 9; j++)
 		{
-			sum += sudoku[j][i];
-		}
+			int check[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+			for(int j = 0; j < 9; j++)
+			{
 
-		if(sum == SUM)
-		{
-			sum = 0;
+				for(int k = 0; k < 9; k++)
+				{
+					if(sudoku[j][i] == check[k])
+					{
+						check[k] = 0;
+					}
+				}
+			}
+			for(int k = 0; k < 9; k++)
+			{
+				if(check[k] != 0)
+				{
+					correct = false;
+				}
+			}
 		}
-
-		else
-		{
-			correct = false;
-			return;
-		}
-	}
-	return;
+		return;
 }
 
 void checkBoxes(int sudoku[][WIDTH], bool &correct)
@@ -112,20 +117,24 @@ void checkBoxes(int sudoku[][WIDTH], bool &correct)
 		{
 			for(int k = 0; k <= 2; k++)
 			{
+				int check[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 				for(int l = 0; l <=2; l++)
 				{
-					sum += sudoku[i + k][j + l];
-				}
-			}
-			if(sum == SUM)
+					for(int m = 0; m < 9; m++)
 					{
-						sum = 0;
+						if(sudoku[i+k][j+l] == check[m])
+						{
+							check[k] = 0;
+						}
 					}
-
-			else
-			{
-				correct = false;
-				return;
+				}
+				for(int m = 0; m < 9; m++)
+				{
+					if(check[k] != 0)
+					{
+						correct = false;
+					}
+				}
 			}
 		}
 	}
